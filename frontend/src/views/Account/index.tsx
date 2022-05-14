@@ -1,17 +1,17 @@
 import React from 'react';
 
 import PageLayout from '@/layout/PageLayout';
+import RegisterAccount from './Components/RegisterAccount';
 
-const Index = () => {
+const Account = () => {
   // const router = useRouter();
 
   return (
     <PageLayout>
-      <div>main page</div>
+      <div>My account</div>
+      <RegisterAccount />
     </PageLayout>
   );
 };
 
-
-
-export default Index;
+export default Account;

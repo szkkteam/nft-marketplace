@@ -2,16 +2,14 @@ import React from 'react';
 
 import PageLayout from '@/layout/PageLayout';
 
-const Index = () => {
+const Assets = () => {
   // const router = useRouter();
 
   return (
     <PageLayout>
-      <div>main page</div>
+      <div>Not found</div>
     </PageLayout>
   );
 };
 
-
-
-export default Index;
+export default Assets;

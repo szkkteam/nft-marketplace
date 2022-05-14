@@ -18,11 +18,16 @@ import { Account } from './account.schema';
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
-  @Post('/signup')
+  @Post()
   async Signup(@Res() response, @Body() user: Account) {
     const newUser = await this.accountService.create(user);
 
     return response.status(HttpStatus.CREATED).json({ newUser });
+  }
+
+  @Get(':address')
+  async getByAddress(@Param() params) {
+    return this.accountService.getByAddress(params.address);
   }
 
   @Post('/login')

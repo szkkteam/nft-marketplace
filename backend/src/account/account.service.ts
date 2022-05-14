@@ -18,4 +18,8 @@ export class AccountService {
     const newUser = new this.accountModel(reqBody);
     return newUser.save();
   }
+
+  async getByAddress(address: string): Promise<Account> {
+    return this.accountModel.findOne({ address });
+  }
 }

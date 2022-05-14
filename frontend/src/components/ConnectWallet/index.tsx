@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@mui/material'
 
 import {
@@ -13,6 +13,9 @@ import useInactiveListener from '@/hooks/useInactiveListener';
 
 import { injected, walletconnect } from '@/config/connectors';
 
+//import { get } from '@/utils/request';
+//import useRegisterProxy from '@/hooks/wyvernRegistry/useRegisterProxy';
+
 enum ConnectorNames {
     Injected = 'Injected',
     WalletConnect = 'WalletConnect',
@@ -23,9 +26,14 @@ const connectorsByName: { [connectorName in ConnectorNames]: any } = {
     [ConnectorNames.WalletConnect]: walletconnect,
   };
 
-
+/*
+  async function hasAccount(account: string) {
+    const res = await get(`/api/v1/account/${account}`);
+    return res;
+  }
+*/
 export default function ConnectWallet() {
-
+ 
     const {
         connector,
         library,
@@ -55,7 +63,36 @@ export default function ConnectWallet() {
   //const activating = currentConnector === activatingConnector;
   const connected = currentConnector === connector;
   //const disabled = !triedEager || !!activatingConnector || connected || !!error;
+      /*
+  const { registerProxy } = useRegisterProxy();
+  useEffect(() => {
+    if (connected && account) {
+      
+      const register = async () => {
+        try {
+          await registerProxy();
+        } catch (e) {
+          console.log(`Error during reigster: ${e}`);
+        }
+      };
 
+      const apiAcc = hasAccount(account).catch(err => {
+            console.log(err);
+            console.log("Registering proxy ...");
+            // TODO: Create account 
+            //register();
+
+      });
+      console.log(apiAcc);
+      // TODO: Asnyc call if we have account.
+      // if not, register through registry
+      // if yes, okay
+      
+
+
+    }
+  }, [connected, account])
+*/
     return (
         <Button variant='contained'
         onClick={() => {

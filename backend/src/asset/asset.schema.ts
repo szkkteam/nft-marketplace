@@ -7,6 +7,9 @@ export class Asset {
   slug: string;
 
   @Prop({ required: true })
+  name: string;
+
+  @Prop({ required: true })
   address: string;
 }
 
