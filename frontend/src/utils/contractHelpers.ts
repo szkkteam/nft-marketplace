@@ -1,6 +1,10 @@
-import { ContractInterface, ethers } from 'ethers';
+import { ContractInterface, ethers, Signer } from 'ethers';
 
-import { abi as wyvernRegistryAbi} from '@/config/abi/WyvernRegistry.json';
+import wyvernRegistryAbi from '@/config/abi/WyvernRegistry.json';
+import IERC721ABI from '@/config/abi/IERC721.json';
+import StaticMarketABI from '@/config/abi/StaticMarket.json';
+import ExchangeABI from '@/config/abi/Exchange.json';
+import ERC20TokenABI from '@/config/abi/Token.json';
 import { JsonRpcSigner } from '@ethersproject/providers';
 
 const getContract = (abi: ContractInterface, address: string, signer: JsonRpcSigner) => {
@@ -16,6 +20,43 @@ export const getWyvernRegistryContract = (signer: ethers.Signer) => {
   );
 };
 
+export const getWyvernStaticMarketContract = (signer: ethers.Signer) => {
+  return getContract(
+    StaticMarketABI,
+    '0x696b956aa5A2707Fe7dea1D2840a3fD677257323',
+    // @ts-ignore
+    signer,
+  );
+};
+
+export const getWyvernExchangeContract = (signer: ethers.Signer) => {
+  return getContract(
+    ExchangeABI,
+    '0x0276D043888549C4D2b6De960666E0736760466c',
+    // @ts-ignore
+    signer,
+  );
+};
+
+export const getIERC721Contract = (address: string, signer: ethers.Signer) => {
+  return getContract(
+    IERC721ABI,
+    address,
+    // @ts-ignore
+    signer,
+  );
+};
+
+export const getERC20TokenContract = (signer: ethers.Signer) => {
+  return getContract(
+    ERC20TokenABI,
+    "0x8aC34ed4fd05A6a1210C3D33f75aFb95Ef4993Fb",
+    // @ts-ignore
+    signer,
+  );
+}
+
+const ERC20 = "0x8aC34ed4fd05A6a1210C3D33f75aFb95Ef4993Fb"
 const wyvernExchange = "0x0276D043888549C4D2b6De960666E0736760466c"
 const staticMarket = "0x696b956aa5A2707Fe7dea1D2840a3fD677257323"
 const wyvernStatic = "0xe27bb5bb21281ca2852e47fE7a46879614E91434"

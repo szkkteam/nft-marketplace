@@ -27,6 +27,9 @@ export class Order {
   calldata: string;
 
   @Prop({ required: true })
+  salt: string;
+
+  @Prop({ required: true })
   paymentToken: string;
 
   @Prop({ default: false })
@@ -35,9 +38,10 @@ export class Order {
   @Prop({ default: false })
   cancelled: boolean;
 
+  /*
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Token', required: true })
   token: Token;
-
+*/
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Account',

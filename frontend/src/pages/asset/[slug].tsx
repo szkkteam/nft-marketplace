@@ -7,7 +7,7 @@ import { AssetEntity, TokenEntity } from '@/interfaces';
 
 interface AssetProp {
     asset: AssetEntity;
-    tokens: Array<TokenEntity>;
+    tokens?: Array<TokenEntity>;
 }
 
 function Asset({asset, tokens}: AssetProp) {
@@ -15,7 +15,7 @@ function Asset({asset, tokens}: AssetProp) {
     //const { slug } = router.query;
     
     return (
-        <AssetView asset={asset} tokens={tokens}/>
+        <AssetView asset={asset} tokens={tokens} />
     );
 }
 
@@ -24,16 +24,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { slug } = context.query;
     try {
         const asset = await getAssetBySlug(slug)
-        const tokens = await getAllToken(asset.address);
 
-        console.log(`
-            asset: ${JSON.stringify(asset)}
-            tokens: ${JSON.stringify(tokens)}
-        `)
         return {
             props: {
-                asset,
-                tokens
+                ...asset,
             }
         }
 

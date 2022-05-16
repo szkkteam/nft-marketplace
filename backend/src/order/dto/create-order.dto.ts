@@ -27,6 +27,10 @@ export class CreateOrder {
 
   @IsNotEmpty()
   @IsString()
+  public salt: string;
+
+  @IsNotEmpty()
+  @IsString()
   public paymentToken: string;
 
   @IsNotEmpty()

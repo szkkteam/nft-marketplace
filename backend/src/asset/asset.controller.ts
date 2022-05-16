@@ -32,11 +32,13 @@ export class AssetController {
 
   @Get()
   async listAll() {
+    console.log("list all asset")
     return this.assetService.listAll();
   }
 
   @Get(':slug')
   async getBySlug(@Param() params) {
+    
     return this.assetService.getBySlug(params.slug);
   }
 }

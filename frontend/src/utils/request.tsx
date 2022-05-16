@@ -1,4 +1,4 @@
-import { SERVER_URL } from '@/config/constants';
+import { SERVER_URL, CLIENT_URL } from '@/config/constants';
 
 /*
 interface Options extends Object {
@@ -7,7 +7,7 @@ interface Options extends Object {
 */
 
 
-export function url(uri: string, queryParams: object | null = null) {
+export function serverUrl(uri: string, queryParams: object | null = null) {
   const baseUrl = `${SERVER_URL}${uri}`;
   console.log("Base url: ", baseUrl)
     return queryParams
@@ -15,6 +15,13 @@ export function url(uri: string, queryParams: object | null = null) {
     : baseUrl
 }
 
+export function clientUrl(uri: string, queryParams: object | null = null) {
+  const baseUrl = `${CLIENT_URL}${uri}`;
+  console.log("Base url: ", baseUrl)
+    return queryParams
+    ? `${baseUrl}?${JSON.stringify(queryParams)}`
+    : baseUrl
+}
 
 export async function get(url: string, options: object = {}) {
     const defaults = {
@@ -22,6 +29,10 @@ export async function get(url: string, options: object = {}) {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+        'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT'
       },
       method: 'GET',
     };
@@ -35,6 +46,10 @@ export async function post(url: string, data: Object, options = {}) {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+        'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT'
       },
       method: 'POST',
       body: JSON.stringify(data),

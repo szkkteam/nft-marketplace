@@ -1,4 +1,4 @@
-import { get, post, url } from '@/utils/request';
+import { get, post, serverUrl } from '@/utils/request';
 import { AssetEntity } from '@/interfaces';
 
 export interface Asset {
@@ -8,7 +8,7 @@ export interface Asset {
 }
 
 const assetUrl = (uri: string = '') => {
-    return url(`/api/v1/asset${uri}`);
+    return serverUrl(`/api/v1/asset${uri}`);
 }
 
 export const getAllAsset = async (): Promise<Array<AssetEntity>> => {

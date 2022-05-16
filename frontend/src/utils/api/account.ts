@@ -1,4 +1,4 @@
-import { get, post, url } from '@/utils/request';
+import { get, post, clientUrl } from '@/utils/request';
 
 export interface Account {
     address: string | null | undefined;
@@ -7,7 +7,7 @@ export interface Account {
 }
 
 const accountUrl = (uri: string = '') => {
-    return url(`/api/v1/account${uri}`);
+    return clientUrl(`/api/v1/account${uri}`);
 }
 
 export const getAccount = async (account: string) => {

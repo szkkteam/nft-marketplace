@@ -4,7 +4,7 @@ module.exports = async function (callback) {
     const [pub1, pub2, pub3, ...accounts] = await web3.eth.getAccounts()
 
     const instance = await Nft.deployed();
-
+    console.log(`Contract: ${instance.address}`)
     const balanceBefore = await instance.totalSupply();
     console.log(`
         balanceBefore: ${balanceBefore}

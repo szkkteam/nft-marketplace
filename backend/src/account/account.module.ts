@@ -10,5 +10,6 @@ import { AccountService } from './account.service';
   ],
   controllers: [AccountController],
   providers: [AccountService],
+  exports: [MongooseModule]
 })
 export class AccountModule {}

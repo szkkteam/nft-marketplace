@@ -1,9 +1,10 @@
+import { flatten } from '@nestjs/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 export type AccountDocument = Account & Document;
 
 @Schema()
 export class Account {
-  @Prop({ required: true })
+  @Prop({ required: false, default: '' })
   username: string;
 
   @Prop({ required: true })

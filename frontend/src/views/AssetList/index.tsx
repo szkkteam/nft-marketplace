@@ -13,18 +13,27 @@ interface AssetProps {
 const AssetList = ({assets}: AssetProps) => {
   // const router = useRouter();
 
+  const renderAssets = () => {
+    return assets.map((asset: AssetEntity, key) => {
+      return (
+        <Grid item xs={12} sm={6} md={4} key={key}>
+          <Collection asset={asset} />
+        </Grid>
+      )
+    })
+  }
+
   return (
     <PageLayout>
       <div>Asset list:</div>
-      <Grid container spacing={3}>
-        {assets.map((item: AssetEntity, key) => (
-          <Grid key={key} item xs={3}>
-              <Collection asset={item} />
-          </Grid>
-        )
-        )}  
+      { assets? (
+        <Grid container spacing={3}>
+        {renderAssets()}
       </Grid>
-
+      ) : (
+        <div>No assets</div>
+      )}
+      
     </PageLayout>
   );
 };
