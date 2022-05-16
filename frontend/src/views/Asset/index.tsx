@@ -1,22 +1,31 @@
 import React from 'react';
-
+import { Grid } from '@mui/material';
 import PageLayout from '@/layout/PageLayout';
 
-import { AssetEntity } from '@/interfaces';
+import { AssetEntity, TokenEntity } from '@/interfaces';
 
 interface AssetProps {
     asset: AssetEntity;
+    tokens: Array<TokenEntity>;
 }
 
+import Token from './components/Token';
 
-const Assets = ({asset}: AssetProps) => {
+const Asset = ({asset, tokens}: AssetProps) => {
   // const router = useRouter();
 
   return (
     <PageLayout>
       <div>Specific asset {asset.name}</div>
+      <Grid container spacing={3}>
+        {tokens.map((item: TokenEntity, key) => (
+          <Grid key={key} item xs={3}>
+            <Token token={item} assetAddress={asset.address}/>
+          </Grid>)
+        )}
+      </Grid>
     </PageLayout>
   );
 };
 
-export default Assets;
+export default Asset;

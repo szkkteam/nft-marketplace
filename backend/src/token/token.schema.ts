@@ -6,7 +6,7 @@ export type TokenDocument = Token & Document;
 @Schema()
 export class Token {
   @Prop({ required: true })
-  id: number;
+  id: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Asset', required: true })
   asset: Asset;

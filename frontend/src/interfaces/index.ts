@@ -1,1 +1,2 @@
-import * from './asset';
+import { AssetEntity } from './asset';
+import { TokenEntity } from './token';

@@ -16,7 +16,7 @@ export const getAllAsset = async (): Promise<Array<AssetEntity>> => {
     return await get(assetUrl());
 }
 
-export const getAssetBySlug = async (slug: string | string[] | undefined) : Promise<Array<AssetEntity>> => {
+export const getAssetBySlug = async (slug: string | string[] | undefined) : Promise<AssetEntity> => {
     // @ts-ignore
     return await get(assetUrl(`/${slug}`));
 }
