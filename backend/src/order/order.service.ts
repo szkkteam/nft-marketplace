@@ -1,4 +1,9 @@
-import { Injectable, forwardRef, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  forwardRef,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order, OrderDocument } from './order.schema';
@@ -7,6 +12,7 @@ import { Asset, AssetDocument } from '../asset/asset.schema';
 import { Account, AccountDocument } from '../account/account.schema';
 import { NftService } from 'src/nft/nft.service';
 import { CreateOrder } from './dto/create-order.dto';
+import { FinalizeOrder } from './dto/finalize-order.dto';
 
 @Injectable()
 export class OrderService {
@@ -22,7 +28,10 @@ export class OrderService {
   async create(body: CreateOrder): Promise<Order> {
     const asset = await this.assetModel.findOne({ address: body.asset });
     const maker = await this.accountModel.findOne({ address: body.maker });
-    let token = await this.tokenModel.findOne({ id: body.token, asset: asset._id });
+    let token = await this.tokenModel.findOne({
+      id: body.token,
+      asset: asset._id,
+    });
     if (!token) {
       // Create token
       token = new this.tokenModel({ id: body.token, asset: asset._id });
@@ -36,10 +45,22 @@ export class OrderService {
       //token: token._id,
     };
     const order = new this.orderModel(modelData);
-    token.orders.push(order); 
+    token.orders.push(order);
     token.save();
 
     return order.save();
+  }
+
+  async finalize(orderId: string, body: FinalizeOrder): Promise<Order> {
+    const taker = await this.accountModel.findOne({ address: body.taker });
+    return await this.orderModel.findOneAndUpdate(
+      { _id: orderId },
+      {
+        finalized: true,
+        taker: taker._id,
+      },
+      { new: true },
+    );
   }
 
   async getOrders(address: string, tokenId: string): Promise<Array<Order>> {

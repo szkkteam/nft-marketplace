@@ -25,22 +25,24 @@ const Token = ({address, token, tokenId}: TokenProp) => {
     const { account } = useWeb3React<Web3ReactProvider>();
     const { owner } = token;
 
+
     useEffect(() => {
         if (account && owner) {
             setSameAccount(account === owner);
         }
-        if ('orders' in token) {
+        if ('orders' in token && token.orders.length > 0) {
             setHasOrder(true);
         }
 
     }, [account]);
     // TODO: Check if user owns the token and if the token is not already listed
 
+
     return (
         <PageLayout>
-            <div>token</div>
+            <div>token {address} - {tokenId}</div>
             {sameAccount && !hasOrder && <SellToken address={address} token={tokenId} />}
-            {!sameAccount && hasOrder && <BuyForm />}            
+            {!sameAccount && hasOrder && <BuyForm address={address} token={tokenId} order={token.orders[0]}/>}            
         </PageLayout>
     )
 }

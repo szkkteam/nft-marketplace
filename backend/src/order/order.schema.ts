@@ -15,10 +15,10 @@ export class Order {
   */
 
   @Prop({ default: Math.floor(new Date().getTime()) / 1000 })
-  listingTime: number;
+  listingTime: string;
 
   @Prop({ required: true })
-  expirationTime: number;
+  expirationTime: string;
 
   @Prop({ required: true })
   currentPrice: string;
@@ -28,6 +28,15 @@ export class Order {
 
   @Prop({ required: true })
   salt: string;
+
+  @Prop({ required: true })
+  v: string;
+
+  @Prop({ required: true })
+  r: string;
+
+  @Prop({ required: true })
+  s: string;
 
   @Prop({ required: true })
   paymentToken: string;

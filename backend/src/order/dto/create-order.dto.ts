@@ -27,6 +27,18 @@ export class CreateOrder {
 
   @IsNotEmpty()
   @IsString()
+  public v: string;
+
+  @IsNotEmpty()
+  @IsString()
+  public r: string;
+
+  @IsNotEmpty()
+  @IsString()
+  public s: string;
+
+  @IsNotEmpty()
+  @IsString()
   public salt: string;
 
   @IsNotEmpty()

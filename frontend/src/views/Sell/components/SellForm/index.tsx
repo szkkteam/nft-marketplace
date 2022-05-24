@@ -52,13 +52,13 @@ const SellForm = ({address, token, proxy}: SellFormProps) => {
 
     const handleConfirm = async () => {
         const expirationTime = new Date('2023-06-01T00:00:00Z').getTime() / 1000;
-        console.log(`
-            expirationTime: ${expirationTime}
-        `)
         try {
-            await makeOrder(account, token, sellAmount, expirationTime.toString());
+            await makeOrder(account, token, sellAmount, "10000000000");
+            console.log('order made')
             // TODO: Redirect to success page
-        } catch(e) {}
+        } catch(e) {
+            console.error(e)
+        }
     }
 
     const buttonProps = {

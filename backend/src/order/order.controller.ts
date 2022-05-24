@@ -15,6 +15,7 @@ import {
 import { OrderService } from './order.service';
 import { Order } from './order.schema';
 import { CreateOrder } from './dto/create-order.dto';
+import { FinalizeOrder } from './dto/finalize-order.dto';
 
 @Controller('/api/v1/order')
 export class OrderController {
@@ -22,6 +23,12 @@ export class OrderController {
 
   @Post()
   async create(@Body() body: CreateOrder): Promise<Order> {
+    console.log(body);
     return this.orderService.create(body);
+  }
+
+  @Post('/:id/finalize')
+  async finalize(@Body() body: FinalizeOrder, @Param() params): Promise<Order> {
+    return this.orderService.finalize(params.id, body);
   }
 }

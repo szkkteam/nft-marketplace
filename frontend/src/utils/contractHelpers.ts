@@ -5,6 +5,7 @@ import IERC721ABI from '@/config/abi/IERC721.json';
 import StaticMarketABI from '@/config/abi/StaticMarket.json';
 import ExchangeABI from '@/config/abi/Exchange.json';
 import ERC20TokenABI from '@/config/abi/Token.json';
+import TestABI from '@/config/abi/Test.json';
 import { JsonRpcSigner } from '@ethersproject/providers';
 
 const getContract = (abi: ContractInterface, address: string, signer: JsonRpcSigner) => {
@@ -56,6 +57,16 @@ export const getERC20TokenContract = (signer: ethers.Signer) => {
   );
 }
 
+export const getTestContract = (signer: ethers.Signer) => {
+  return getContract(
+    TestABI,
+    "0xB6Fb242636173dc882c859E44A08Be48cF317371",
+    // @ts-ignore
+    signer,
+  )
+}
+
+const TEST = "0xA8b9487c3397580943eE1638948B3d3F8D20053C"
 const ERC20 = "0x8aC34ed4fd05A6a1210C3D33f75aFb95Ef4993Fb"
 const wyvernExchange = "0x0276D043888549C4D2b6De960666E0736760466c"
 const staticMarket = "0x696b956aa5A2707Fe7dea1D2840a3fD677257323"

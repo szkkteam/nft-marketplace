@@ -6,7 +6,8 @@ import {
   getIERC721Contract, 
   getWyvernStaticMarketContract, 
   getWyvernExchangeContract,
-  getERC20TokenContract
+  getERC20TokenContract,
+  getTestContract
 } from '@/utils/contractHelpers';
 
 export const useWyvernRegistry = () => {
@@ -32,4 +33,9 @@ export const useWyvernExchange = () => {
 export const useERC20Token = () => {
   const { library } = useActiveWeb3React();
   return useMemo(() => library && getERC20TokenContract(library.getSigner()), [library]);
+}
+
+export const useTestContract = () => {
+  const { library } = useActiveWeb3React();
+  return useMemo(() => library && getTestContract(library.getSigner()), [library]);
 }
