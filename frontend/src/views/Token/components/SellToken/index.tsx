@@ -9,8 +9,8 @@ export interface SellTokenProps {
 
 const SellToken = ({address, token}: SellTokenProps) => {
     return (
-        <LinkButton href={`/assets/${address}/${token}/sell`} variant='contained'>
-            Sell
+        <LinkButton href={`/assets/${address}/${token}/sell`} variant='contained' sx={{width: '120px'}}>
+            List item
         </LinkButton>
     )
 }

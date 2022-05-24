@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { ReactChild } from 'react';
 
 
 import {
+    Box,
     Card,
+    Grid,
     CardHeader,
     CardMedia,
     CardContent,
@@ -10,39 +12,54 @@ import {
     Typography,
     Button,
 } from '@mui/material'
-import LinkButton from '@/components/LinkButton';
-import { TokenEntity } from '@/interfaces';
+
+import CardLink from '@/components/CardLink';
+import NftImage from '@/components/NftImage';
+
+import { TokenEntity, AssetEntity } from '@/interfaces';
 
 export interface TokenProps {
     token: TokenEntity;
-    assetAddress: string;
+    asset: AssetEntity;
 }
 
-const Token = ({token, assetAddress}: TokenProps ) => {
+const Token = ({token, asset}: TokenProps ) => {
     const { id, uri } = token;
+    const { name, address } = asset;
+
+    const hasOrder = token?.orders && token?.orders.length > 0;
 
     return (
-        <Card>
-            <CardMedia
-            component="img"
-            height="140"
-            //image="/static/images/cards/contemplative-reptile.jpg"
-            alt="token uri"
-            />
+        <CardLink href={`/assets/${address}/${id}`}>
+            <CardMedia sx={{position: 'relative'}}>
+                <NftImage height={250} />                
+            </CardMedia>
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    Listing price and others
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </Typography>                
+                <Grid container spacing={0}>
+                    <Grid item xs={6}>
+                        <Box>
+                            <Typography variant="caption" component="p" sx={{fontWeight: 'bold'}}>
+                                {name}
+                            </Typography>
+                            <Typography variant="caption" component="p" sx={{fontWeight: 'bold'}}>
+                                {`#${id}`}
+                            </Typography>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={6}>
+                        {hasOrder && <Box sx={{textAlign: 'right'}}>
+                            <Typography variant="caption" component="p" sx={{fontWeight: 'bold'}}>
+                                Price
+                            </Typography>
+                            <Typography variant="caption" component="p" sx={{fontWeight: 'bold'}}>
+                                0.012
+                            </Typography>
+                        </Box> }
+                    </Grid>
+                </Grid>                
             </CardContent>
-            <CardActions>
-                <LinkButton href={`/assets/${assetAddress}/${id}`} size="small">Details</LinkButton>
-                <Button size="small" disabled={true}>Buy</Button>
-            </CardActions>
-        </Card>
-    )
+        </CardLink>
+    )   
 }
 
 export default Token;

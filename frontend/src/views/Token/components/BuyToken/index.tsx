@@ -13,13 +13,13 @@ import {
 
 import { OrderEntity } from '@/interfaces/token';
 
-export interface BuyFormProp {
+export interface BuyTokenProp {
     address: string;
     token: string;
     order: OrderEntity;
 }
 
-const BuyForm = ({address, token, order}: BuyFormProp) => {
+const BuyToken = ({address, token, order}: BuyTokenProp) => {
     const { proxyAccount, isLoading } = useHasAccount();
     const { takeOrder } = useTakeOrder(address, token, order._id);
     
@@ -60,4 +60,4 @@ const BuyForm = ({address, token, order}: BuyFormProp) => {
     )
 }
 
-export default BuyForm;
+export default BuyToken;

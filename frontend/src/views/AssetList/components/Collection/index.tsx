@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
     Card,
+    Box,
     CardHeader,
     CardMedia,
     CardContent,
@@ -9,6 +10,9 @@ import {
     Typography,
     Button,
 } from '@mui/material'
+
+import CardLink from '@/components/CardLink';
+import NftImage from '@/components/NftImage';
 
 import LinkButton from '@/components/LinkButton';
 import { AssetEntity } from '@/interfaces';
@@ -20,27 +24,19 @@ export interface CollectionProps {
 const Collection = ({ asset }: CollectionProps) => {
     const { name, slug, address } = asset;
 
+
     return (
-        <Card>
-            <CardMedia
-            component="img"
-            height="140"
-            //image="/static/images/cards/contemplative-reptile.jpg"
-            alt="green iguana"
-            />
+        <CardLink href={`/asset/${slug}`}>
+            <CardMedia sx={{position: 'relative'}}>
+                <NftImage height={160} />                
+            </CardMedia>
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </Typography>                
+                <Box sx={{marginLeft: 'auto', marginRight: 'auto', width: 'fit-content'}}>
+                    <Typography variant="h6" component="h2">{name}</Typography>
+                    <Typography variant="body2" component="p">by author</Typography>
+                </Box>
             </CardContent>
-            <CardActions>
-                <Button size="small" disabled={true}>Share</Button>
-                <LinkButton href={`/asset/${slug}`} size="small">Open</LinkButton>
-            </CardActions>
-        </Card>
+        </CardLink>
     )
 }
 

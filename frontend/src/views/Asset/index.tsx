@@ -1,5 +1,5 @@
-import React from 'react';
-import { Grid } from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, Container, Box, Typography } from '@mui/material';
 import PageLayout from '@/layout/PageLayout';
 
 import { AssetEntity, TokenEntity } from '@/interfaces';
@@ -9,20 +9,35 @@ interface AssetProps {
     tokens?: Array<TokenEntity>;
 }
 
+import Header from './components/Header';
 import Token from './components/Token';
+import TokenList from './components/TokenList';
+import Activity from './components/Activity';
+
 
 const Asset = ({asset, tokens}: AssetProps) => {
   
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setValue(newValue);
+  } 
+
   return (
     <PageLayout>
-      <div>Specific asset {asset.name}</div>
-      <Grid container spacing={3}>
-        {tokens && tokens.map((item: TokenEntity, key: any) => (
-          <Grid key={key} item xs={3}>
-            <Token token={item} assetAddress={asset.address}/>
-          </Grid>)
-        )}
-      </Grid>
+      <Container maxWidth={false}>
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Header name={asset.name} value={value} onChange={handleChange}/>
+          </Grid>
+          {value === 0? (
+              <TokenList tokens={tokens} asset={asset}/>
+            ) : (
+              <Activity />
+            )}
+        </Grid>
+      </Container>
+      
     </PageLayout>
   );
 };
