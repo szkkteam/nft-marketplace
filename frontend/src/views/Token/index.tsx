@@ -7,9 +7,10 @@ import {
 } from '@mui/material'
 
 import PageLayout from '@/layout/PageLayout';
+import TokenPreview from '@/components/TokenPreview';
+
 import SellToken from './components/SellToken'
 import BuyToken from './components/BuyToken';
-import Preview from './components/Preview';
 import Header from './components/Header';
 import Actions from './components/Actions';
 
@@ -50,23 +51,12 @@ const Token = ({address, token, tokenId}: TokenProp) => {
     const sellButton = sameAccount && !hasOrder;
     const buyButton = !sameAccount && hasOrder;
 
-    const getOwner = () => {
-        return (
-            <>
-                <b>{sameAccount? 'You' : `${owner.substring(0, 6)}...${owner.substring(
-        owner.length - 4,
-        )}`}</b>
-            </>
-        )
-    }
-
-
     return (
-        <PageLayout>
+        <PageLayout marginTop={5}>
             <Container fixed>
                 <Grid container spacing={4}>
                     <Grid item xs={4}>
-                        <Preview />
+                        <TokenPreview />
                     </Grid>
                     <Grid item xs={8}>
                         <Header name="Simple NFT" tokenId={tokenId} owner={
@@ -76,6 +66,7 @@ const Token = ({address, token, tokenId}: TokenProp) => {
                         <Box sx={{marginBottom: 2}} />
                         <Actions 
                             owned={sameAccount}
+                            listingPrice={hasOrder && token.orders[0]?.currentPrice}
                             action={
                                 <>
                                     {sellButton && <SellToken address={address} token={tokenId} />}

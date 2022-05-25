@@ -26,7 +26,7 @@ const AssetList = ({assets}: AssetProps) => {
   }
 
   return (
-    <PageLayout>
+    <PageLayout marginTop={5}>
       <Container >
         <Grid container spacing={6}>
           <Grid item xs={12}>

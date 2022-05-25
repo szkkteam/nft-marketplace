@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@mui/material'
+import { Chip } from '@mui/material'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import WarningIcon from '@mui/icons-material/Warning';
 
 import {
     Web3ReactProvider,
@@ -93,24 +96,31 @@ export default function ConnectWallet() {
     }
   }, [connected, account])
 */
+  
+
+    const getLabel = () => {
+      return connected ? (
+          account
+            ? `${account.substring(0, 6)}...${account.substring(
+                account.length - 4,
+              )}`
+            : 'Invalid Network'
+      ) : (
+        'Connect Wallet'
+      )
+    }
+
     return (
-        <Button variant='contained'
-        onClick={() => {
+        <Chip 
+          onClick={() => {
             setActivatingConnector(currentConnector);
             activate(injected);
           }}
-          >
-            {connected ? (
-              <span>
-                {account
-                  ? `${account.substring(0, 6)}...${account.substring(
-                      account.length - 4,
-                    )}`
-                  : 'Invalid Network'}
-              </span>
-            ) : (
-              <span>Connect Wallett</span>
-            )}
-        </Button>
+          color="primary"
+          size="medium"
+          label={getLabel()}
+          onDelete={() => null}
+          deleteIcon={connected? account? <CheckCircleIcon /> : <WarningIcon /> : <CancelIcon />}
+          />           
     )
 }

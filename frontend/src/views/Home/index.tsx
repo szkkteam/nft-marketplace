@@ -11,7 +11,7 @@ import MintTeaser from './components/MintTeaser';
 
 const Index = () => {
     return (
-        <PageLayout>
+        <PageLayout marginTop={5}>
             <Container fixed >
                 <Grid container spacing={10}>
                     <Grid item xs={12}>

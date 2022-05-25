@@ -8,6 +8,8 @@ import {
     Divider,
 } from '@mui/material'
 
+import TokenPrice from '@/components/TokenPrice';
+
 export interface ActionsProps {
     action: React.ReactNode;
     listingPrice?: string;
@@ -23,9 +25,7 @@ const Actions = ({action, owned, listingPrice=undefined} : ActionsProps) => {
                 {listingPrice ? (
                     <>
                         <Typography variant="body2" sx={{marginBottom: 1}}>Price</Typography>
-                        <Typography variant="h6" component="p" sx={{fontWeight: 'bold'}}>
-                            0.012
-                        </Typography>
+                        <TokenPrice variant="h6" rawPrice={listingPrice} />
                     </>
                 ) : (
                 <Typography variant="body2" component="p" sx={{fontWeight: 'bold'}}>

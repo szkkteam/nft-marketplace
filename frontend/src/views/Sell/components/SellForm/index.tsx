@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-import { Button } from '@mui/material';
+import { 
+    Button,
+    Grid,
+    Typography,
+    Divider,
+} from '@mui/material';
 import NumberInput from '../NumberInput';
 
+import useConvertPrice from '@/hooks/useConvertPrice';
 import useIERC721 from '@/hooks/useIERC721';
 import useMakeOrder from '@/hooks/useMakeOrder';
 
@@ -18,12 +24,14 @@ export interface SellFormProps {
 }
 
 const SellForm = ({address, token, proxy}: SellFormProps) => {
+    const { toRaw } = useConvertPrice();
     const { account } = useWeb3React<Web3ReactProvider>();
     const {isApprovedForAll, setApprovalForAll} = useIERC721(address);
     const { makeOrder } = useMakeOrder(address);
 
     const [sellAmount, setSellAmount] = useState('');
     const [isApproved, setIsApproved] = useState(false);
+    const [validPrice, setValidPrice] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -53,7 +61,9 @@ const SellForm = ({address, token, proxy}: SellFormProps) => {
     const handleConfirm = async () => {
         const expirationTime = new Date('2023-06-01T00:00:00Z').getTime() / 1000;
         try {
-            await makeOrder(account, token, sellAmount, "10000000000");
+            const convertedPrice = await toRaw(sellAmount.toString());
+            console.log("convertedPrice: ", convertedPrice)
+            await makeOrder(account, token, convertedPrice, "10000000000");
             console.log('order made')
             // TODO: Redirect to success page
         } catch(e) {
@@ -61,24 +71,44 @@ const SellForm = ({address, token, proxy}: SellFormProps) => {
         }
     }
 
+    const handleNumber = (price: string) => {
+        
+        if(price.match(/^([0-9]{1,})?(\.)?([0-9]{1,})?$/))
+            setSellAmount(price);
+    }
+
+    const handleFloat = () => {
+        setSellAmount(parseFloat(sellAmount) || '')       
+    }
+
     const buttonProps = {
         disabled: !account,
     }
 
     return (
-        <>
-            <div>SellForm</div>
-            <NumberInput value={sellAmount} onChange={setSellAmount}/>
-            {isApproved ? (
-                <Button {...buttonProps} disabled={sellAmount === ''} onClick={handleConfirm}>
-                    Confirm
-                </Button>
-            ) : (
-                <Button {...buttonProps}  onClick={handleSetApproval}>
-                    Approve
-                </Button>
-            )}
-        </>
+        <Grid container spacing={4}>
+            <Grid item xs={12}>
+                <Typography variant="h5" component="h5">List item for sale</Typography>
+            </Grid>
+            <Grid item xs={12}>
+                <Typography variant="body2" component="p" sx={{marginBottom: 1}}>Price</Typography>
+                <NumberInput value={sellAmount} onChange={handleNumber} onBlur={handleFloat} fullWidth required/>
+            </Grid>
+            <Grid item xs={12}>
+                <Divider />
+            </Grid>
+            <Grid item xs={12}>
+                {isApproved ? (
+                    <Button {...buttonProps} disabled={!sellAmount} onClick={handleConfirm} variant='contained' sx={{width: '120px'}}>
+                        Confirm
+                    </Button>
+                ) : (
+                    <Button {...buttonProps}  onClick={handleSetApproval} variant='contained' sx={{width: '120px'}}>
+                        Approve
+                    </Button>
+                )}
+            </Grid>
+        </Grid>
         
     )
 }

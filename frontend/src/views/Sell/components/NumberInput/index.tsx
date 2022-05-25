@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-import { TextField } from '@mui/material'
+import TextField, { TextFieldProps } from '@mui/material/TextField'
 
 
-export interface NumberInputProps {
+// @ts-ignore
+export interface NumberInputProps extends TextFieldProps {
     onChange: (value: string) => void;
-    value: string;
   }
 
-const NumberInput = ({value, onChange}: NumberInputProps) => {
+const NumberInput: FC<NumberInputProps> = ({onChange, ...props}: NumberInputProps) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onChange && onChange(event.target.value);        
@@ -16,9 +16,9 @@ const NumberInput = ({value, onChange}: NumberInputProps) => {
 
     return (
         <TextField
-            label="Sell amount"
-            value={value}
+            label="Amount"
             onChange={handleChange}
+            {...props}
         />
     )
 }

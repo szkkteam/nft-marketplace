@@ -12,7 +12,7 @@ export class Token {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Asset', required: true })
   asset: Asset;
 
-  @Prop([{type: mongoose.Schema.Types.ObjectId, ref: 'Order'}])
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }])
   orders: Order[];
 }
 

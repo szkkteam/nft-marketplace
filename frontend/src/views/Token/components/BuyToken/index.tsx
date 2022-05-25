@@ -54,8 +54,8 @@ const BuyToken = ({address, token, order}: BuyTokenProp) => {
     }
     //console.log(`token: ${JSON.stringify(order)}`)
     return (
-        <Button disabled={isLoading} onClick={handleBuy}>
-            Buy
+        <Button disabled={isLoading} onClick={handleBuy} variant='contained' sx={{width: '120px'}}>
+            Buy item
         </Button>
     )
 }

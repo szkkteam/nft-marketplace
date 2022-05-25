@@ -61,8 +61,8 @@ const useMakeOrder = (nftAddress: string) => {
       };
       console.log(orderPayload);
 
-      //const retval = await createOrder(orderPayload);
-      //console.log(retval);
+      const retval = await createOrder(orderPayload);
+      console.log(retval);
     },
     [exchange, token, nftAddress, test],
   );

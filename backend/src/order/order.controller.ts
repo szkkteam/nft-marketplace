@@ -10,6 +10,7 @@ import {
   Put,
   Req,
   Res,
+  Query,
 } from '@nestjs/common';
 
 import { OrderService } from './order.service';
@@ -30,5 +31,17 @@ export class OrderController {
   @Post('/:id/finalize')
   async finalize(@Body() body: FinalizeOrder, @Param() params): Promise<Order> {
     return this.orderService.finalize(params.id, body);
+  }
+
+  @Get('/filter')
+  async findByFilter(
+    @Query('address') address,
+    @Query('finalized') finalized = false,
+  ): Promise<Order[]> {
+    console.log(`
+      asset: ${address}
+      finalized: ${finalized}
+    `)
+    return this.orderService.findByFilter(address, finalized);
   }
 }

@@ -15,6 +15,7 @@ import {
 
 import CardLink from '@/components/CardLink';
 import NftImage from '@/components/NftImage';
+import TokenPrice from '@/components/TokenPrice';
 
 import { TokenEntity, AssetEntity } from '@/interfaces';
 
@@ -51,9 +52,7 @@ const Token = ({token, asset}: TokenProps ) => {
                             <Typography variant="caption" component="p" sx={{fontWeight: 'bold'}}>
                                 Price
                             </Typography>
-                            <Typography variant="caption" component="p" sx={{fontWeight: 'bold'}}>
-                                0.012
-                            </Typography>
+                            <TokenPrice rawPrice={token.orders[0].currentPrice} />                            
                         </Box> }
                     </Grid>
                 </Grid>                

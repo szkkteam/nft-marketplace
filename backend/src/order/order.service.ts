@@ -42,7 +42,7 @@ export class OrderService {
       cancelled: false,
       finalized: false,
       maker: maker._id,
-      //token: token._id,
+      token: token._id,
     };
     const order = new this.orderModel(modelData);
     token.orders.push(order);
@@ -70,5 +70,21 @@ export class OrderService {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
     return await this.orderModel.find({ token: token._id, asset: asset._id });
+  }
+
+  async findByFilter(address, finalized = false): Promise<Array<Order>> {
+    const asset = await this.assetModel.findOne({ address });
+    return await this.orderModel
+      .find({
+        asset: asset._id,
+        finalized: finalized,
+      })
+      .populate({
+        path: 'token',
+        populate: {
+          path: 'asset',
+        }
+      })
+      .exec();
   }
 }

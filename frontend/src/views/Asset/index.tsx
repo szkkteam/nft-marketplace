@@ -24,7 +24,7 @@ const Asset = ({asset, tokens}: AssetProps) => {
   } 
 
   return (
-    <PageLayout>
+    <PageLayout marginTop={5}>
       <Container maxWidth={false}>
         <Grid container spacing={4}>
           <Grid item xs={12}>
@@ -33,7 +33,7 @@ const Asset = ({asset, tokens}: AssetProps) => {
           {value === 0? (
               <TokenList tokens={tokens} asset={asset}/>
             ) : (
-              <Activity />
+              <Activity address={asset.address}/>
             )}
         </Grid>
       </Container>

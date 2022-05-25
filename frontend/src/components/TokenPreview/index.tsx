@@ -4,7 +4,7 @@ import NftImage from '@/components/NftImage';
 
 import { Skeleton, Card, CardMedia, ImageListItemBar, CardActionArea   } from '@mui/material';
 
-const TokenPreview = () => {
+const Preview = () => {
     return (
         <Card>
             <CardMedia sx={{position: 'relative'}}>
@@ -14,4 +14,4 @@ const TokenPreview = () => {
     )
 }
 
-export default TokenPreview;
+export default Preview;
