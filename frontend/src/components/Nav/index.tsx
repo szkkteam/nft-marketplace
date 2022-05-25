@@ -25,7 +25,7 @@ export default function Nav() {
             <LinkButton href='/asset' variant="text" sx={{color: '#fff', marginLeft: { sx: 0, md: 2 }}}>
               Explore
             </LinkButton>
-            <LinkButton href='/asset' variant="text" sx={{color: '#fff', marginLeft: { sx: 0, md: 2 }}}>
+            <LinkButton href='/mint' variant="text" sx={{color: '#fff', marginLeft: { sx: 0, md: 2 }}}>
               Mints
             </LinkButton>
           </Box>

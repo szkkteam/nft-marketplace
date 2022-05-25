@@ -3,15 +3,18 @@ import { Box, Typography, Grid } from '@mui/material'
 
 import Mint from './Mint';
 
-const MintTeaser = () => {
+import { MintEntity } from '@/interfaces';
 
-    
-    const mints = [1, 2, 3,];
+export interface MintTeaserProps {
+    mints: Array<MintEntity>;
+}
+
+const MintTeaser = ({mints} : MintTeaserProps) => {
 
     const renderMints = () => (
         mints && mints.map((mint, key) => (
             <Grid key={key} item xs={4}>
-                <Mint />
+                <Mint {...mint} />
             </Grid>
         ))
     )

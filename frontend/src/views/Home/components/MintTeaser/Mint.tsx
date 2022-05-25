@@ -5,14 +5,25 @@ import NftImage from '@/components/NftImage';
 
 import { CardMedia, ImageListItemBar   } from '@mui/material';
 
-const Mint = () => {
+export interface MintProps {
+    address: string;
+    name: string;
+    slug: string;
+    supply?: {
+        totalSupply: string;
+        maximumSupply: string;
+    }
+}
+
+const Mint = ({address, name, slug, supply} : MintProps) => {
+    const { totalSupply, maximumSupply } = supply || {};
     return (
-        <CardLink href="/asset/simplenft">
+        <CardLink href={`/asset/${slug}`}>
             <CardMedia sx={{position: 'relative'}}>
             <NftImage height={280} />
                 <ImageListItemBar
-                    title="Simple NFT"
-                    subtitle="20 / 10,000"
+                    title={name}
+                    subtitle={`${totalSupply} / ${maximumSupply}`}
                 />
             </CardMedia>
 

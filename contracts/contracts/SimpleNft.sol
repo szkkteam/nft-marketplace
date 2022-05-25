@@ -6,7 +6,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract SimpleNft is ERC721A, Ownable, ReentrancyGuard {
+import "./Mintable.sol";
+
+contract SimpleNft is Mintable, ERC721A, Ownable, ReentrancyGuard {
     // Mint stages
     uint128 public constant STAGE_CLOSED = 0;
     uint128 public constant STAGE_WHITELIST_MINT = 1;
@@ -37,7 +39,7 @@ contract SimpleNft is ERC721A, Ownable, ReentrancyGuard {
     event Mint(address indexed to, uint256 amount);
     event StageChanged(uint128 indexed oldStage, uint128 indexed newStage);
 
-    constructor() ERC721A("SimpleNft", "SNFT") {
+    constructor() ERC721A("Test NFT", "TNFT") {
         stage = STAGE_PUBLIC_MINT;
     }
 
@@ -58,6 +60,16 @@ contract SimpleNft is ERC721A, Ownable, ReentrancyGuard {
             "Address not on the list"
         );
         _;
+    }
+    /**********************************************************
+     * Mintable virtual functions
+     ***********************************************************/
+
+    function maximumSupply() public view override returns (uint256) {
+        return TOTAL_SUPPLY;
+    }
+    function mint(uint256 amount) external override payable {
+        publicMint(amount);
     }
 
     /**********************************************************
@@ -114,7 +126,7 @@ contract SimpleNft is ERC721A, Ownable, ReentrancyGuard {
     /**
      * @dev Public mint of tokens.
      */
-    function publicMint(uint256 quantity) external payable nonReentrant {
+    function publicMint(uint256 quantity) public payable nonReentrant {
         require(stage == STAGE_PUBLIC_MINT, "Mint not open yet");
         require(
             totalSupply() + quantity <= TOTAL_SUPPLY,

@@ -2,10 +2,12 @@ import { ContractInterface, ethers, Signer } from 'ethers';
 
 import wyvernRegistryAbi from '@/config/abi/WyvernRegistry.json';
 import IERC721ABI from '@/config/abi/IERC721.json';
+import IERC721AABI from '@/config/abi/IERC721A.json';
 import StaticMarketABI from '@/config/abi/StaticMarket.json';
 import ExchangeABI from '@/config/abi/Exchange.json';
 import ERC20TokenABI from '@/config/abi/Token.json';
 import TestABI from '@/config/abi/Test.json';
+import MintableABI from '@/config/abi/Mintable.json';
 import { JsonRpcSigner } from '@ethersproject/providers';
 
 const getContract = (abi: ContractInterface, address: string, signer: JsonRpcSigner) => {
@@ -41,7 +43,8 @@ export const getWyvernExchangeContract = (signer: ethers.Signer) => {
 
 export const getIERC721Contract = (address: string, signer: ethers.Signer) => {
   return getContract(
-    IERC721ABI,
+    //IERC721ABI,
+    IERC721AABI,
     address,
     // @ts-ignore
     signer,
@@ -64,6 +67,15 @@ export const getTestContract = (signer: ethers.Signer) => {
     // @ts-ignore
     signer,
   )
+}
+
+export const getMintableContract = (address: string, signer: ethers.Signer) => {
+  return getContract(
+    MintableABI,
+    address,
+    // @ts-ignore
+    signer,
+  );
 }
 
 const TEST = "0xA8b9487c3397580943eE1638948B3d3F8D20053C"

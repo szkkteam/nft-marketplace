@@ -19,26 +19,36 @@ interface AssetImport {
   address: string;
 }
 
-@Controller('/api/v1/asset')
+@Controller('/api/v1')
 export class AssetController {
   constructor(private readonly assetService: AssetService) {}
 
-  @Post('/import')
+  @Post('/asset/import')
   async import(@Res() response, @Body() asset: AssetImport) {
     const newAsset = await this.assetService.import(asset.address);
 
     return response.status(HttpStatus.CREATED).json({ newAsset });
   }
 
-  @Get()
+  @Get('/asset')
   async listAll() {
     console.log("list all asset")
     return this.assetService.listAll();
   }
 
-  @Get(':slug')
+  @Get('asset/:slug')
   async getBySlug(@Param() params) {
     
     return this.assetService.getBySlug(params.slug);
+  }
+
+  @Get('/mint')
+  async getMints(@Param() params) {
+    return this.assetService.getAllMint();
+  }
+
+  @Get('/mint/:slug')
+  async getMint(@Param() params) {
+    return this.assetService.getMint(params.slug);
   }
 }

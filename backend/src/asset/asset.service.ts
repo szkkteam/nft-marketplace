@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { Asset, AssetDocument } from './asset.schema';
 import { TokenService } from '../token/token.service'
 import { NftService } from 'src/nft/nft.service';
-import { GetAsset } from './dto/get-asset.dto';
+import { GetMint } from './dto/get-mint.dto';
 
 @Injectable()
 export class AssetService {
@@ -28,6 +28,20 @@ export class AssetService {
     return newAsset.save();
     */
     return newAsset.save();
+  }
+
+  async getAllMint(): Promise<GetMint[]> {
+    const assets = await this.assetModel.find().exec();
+
+    // @ts-ignore
+    return this.nftService.getMintableAssets(assets);
+  }
+
+  async getMint(slug: string): Promise<GetMint> {
+    const asset = await this.assetModel.findOne({slug}).exec();
+
+    // @ts-ignore
+    return this.nftService.getMintableAsset(asset);
   }
 
   async listAll(): Promise<Asset[]> {

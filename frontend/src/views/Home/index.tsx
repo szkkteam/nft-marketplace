@@ -8,8 +8,14 @@ import Hero from './components/Hero';
 import CollectionTeaser from './components/CollectionTeaser';
 import MintTeaser from './components/MintTeaser';
 
+import { AssetEntity, MintEntity } from '@/interfaces'
 
-const Index = () => {
+export interface IndexProps {
+    assets: Array<AssetEntity>;
+    mints: Array<MintEntity>;
+}
+
+const Index = ({assets, mints} : IndexProps) => {
     return (
         <PageLayout marginTop={5}>
             <Container fixed >
@@ -18,10 +24,10 @@ const Index = () => {
                         <Hero />
                     </Grid>
                     <Grid item xs={12}>
-                        <CollectionTeaser />
+                        <CollectionTeaser assets={assets}/>
                     </Grid>
                     <Grid item xs={12}>
-                        <MintTeaser />
+                        <MintTeaser mints={mints}/>
                     </Grid>
                 </Grid>
             </Container>        

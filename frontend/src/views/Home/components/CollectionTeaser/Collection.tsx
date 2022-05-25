@@ -5,13 +5,20 @@ import NftImage from '@/components/NftImage';
 
 import { Skeleton, Card, CardMedia, ImageListItemBar, CardActionArea   } from '@mui/material';
 
-const Collection = () => {
+export interface CollectionProps {
+    address: string;
+    name: string;
+    slug: string;
+
+}
+
+const Collection = ({address, name, slug}: CollectionProps) => {
     return (
-        <CardLink href="/asset/simplenft">
+        <CardLink href={`/asset/${slug}`}>
             <CardMedia sx={{position: 'relative'}}>
                 <NftImage height={280} />
                 <ImageListItemBar
-                    title="Simple NFT"
+                    title={name}
                     subtitle="Lorem ipsum dorem sit amet"
                 />
             </CardMedia>

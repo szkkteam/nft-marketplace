@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { getApproved, setApprovalForAll, isApprovedForAll } from '@/utils/calls/IERC721';
+import { getApproved, setApprovalForAll, isApprovedForAll, totalSupply } from '@/utils/calls/IERC721';
 import { useIERC721 as IERC721 } from '@/hooks/useContract';
 
 const useIERC721 = (address: string) => {
@@ -28,10 +28,18 @@ const useIERC721 = (address: string) => {
         [contract],
   );
 
+  const handleTotalSupply = useCallback(
+    async () => {
+      return await totalSupply(contract);
+    },
+    [contract],
+  );
+
   return { 
       getApproved: handleGetApproved,
       setApprovalForAll: handleSetApprovalForAll, 
-      isApprovedForAll: handleIsApprovedForAll
+      isApprovedForAll: handleIsApprovedForAll,
+      totalSupply: handleTotalSupply
     };
 };
 

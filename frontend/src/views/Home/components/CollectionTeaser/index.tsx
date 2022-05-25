@@ -3,14 +3,18 @@ import { Box, Typography, Grid } from '@mui/material'
 
 import Collection from './Collection';
 
-const CollectionTeaser = () => {
+import { AssetEntity } from '@/interfaces';
 
-    const collections = [1, 2, 3,];
+export interface CollectionTeaserProps {
+    assets: Array<AssetEntity>;
+}
+
+const CollectionTeaser = ({assets} : CollectionTeaserProps) => {
 
     const renderCollections = () => (
-        collections && collections.map((collection, key) => (
+        assets && assets.map((asset, key) => (
             <Grid key={key} item xs={4}>
-                <Collection />
+                <Collection {...asset}/>
             </Grid>
         ))
     )

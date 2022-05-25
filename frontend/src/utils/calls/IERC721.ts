@@ -13,3 +13,7 @@ export const setApprovalForAll = async (contract: Contract, operator: string, ap
 export const isApprovedForAll = async (contract: Contract, owner: string, operator: string) : Promise<boolean> => {
     return await contract && contract.isApprovedForAll(owner, operator);
 }
+
+export const totalSupply = async (contract: Contract) : Promise<string> =>  {
+  return await contract && contract.totalSupply();
+}

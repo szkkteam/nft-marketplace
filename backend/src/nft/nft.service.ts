@@ -2,10 +2,13 @@ import {
   EthersContract,
   InjectContractProvider,
   Contract,
+  ContractInterface
 } from 'nestjs-ethers';
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { Injectable, BadRequestException, HttpStatus, Logger } from '@nestjs/common';
 //import { Contract, ContractInterface } from '@ethersproject/contracts';
 import * as ERC721AAbi from './abi/IERC721A.json';
+import * as MintableAbi from './abi/Mintable.json';
+import { Asset, AssetDocument } from '../asset/asset.schema';
 //import * as ERC721AAbi from '../utils/abi/ERC721A.json';
 //import {abi } from '../utils/abi/ERC721A.json';
 import { slugify } from '../utils';
@@ -16,8 +19,8 @@ export class NftService {
     @InjectContractProvider() private readonly contract: EthersContract,
   ) {}
 
-  private async getContract(address: string): Promise<Contract> {
-    const contract: Contract = this.contract.create(address, ERC721AAbi.abi);
+  private async getContract(address: string, abi = ERC721AAbi): Promise<Contract> {
+    const contract: Contract = this.contract.create(address, abi);
     return contract;
   }
 
@@ -50,6 +53,65 @@ export class NftService {
     }));
 
     return uris;
+
+  }
+
+  async getMintableAssets(addresses: Asset[]) {    
+    const mints = await Promise.all(addresses.map(async ({address, name, slug}) => {
+
+      try {
+        const erc721a = await this.getContract(address);
+        const mintable = await this.getContract(address, MintableAbi);
+
+        const totalSupply = (await erc721a.functions.totalSupply()).toString();
+        const maximumSupply = (await mintable.functions.maximumSupply()).toString();
+
+        if (parseInt(totalSupply) < parseInt(maximumSupply) -1) {
+          return {
+            address,
+            name,
+            slug,
+            supply: {
+              totalSupply,
+              maximumSupply,
+            },
+          }
+        }
+
+      } catch(e) {}
+    }));
+
+    return mints.filter(n => n);
+  }
+
+  async getMintableAsset({address, name, slug}) {
+    //const erc721a = await this.getContract(address);
+    const erc721a = await this.getContract(address);
+    const mintable = await this.getContract(address, MintableAbi);
+
+    const totalSupply = (await erc721a.functions.totalSupply()).toString();
+    const maximumSupply = (await mintable.functions.maximumSupply()).toString();
+
+    if (parseInt(totalSupply) < parseInt(maximumSupply) -1) {
+      return {
+        address,
+        name,
+        slug,
+        supply: {
+          totalSupply,
+          maximumSupply,
+        },
+      }
+    } else {
+      throw new BadRequestException("Asset is not mintable");
+    }
+  }
+
+  async getMaximumSupply(address: string, contract: Contract = null) {
+
+  }
+
+  async getTotalSupply(address: string, contract: Contract = null) {
 
   }
 
