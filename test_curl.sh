@@ -1,4 +1,4 @@
-curl  -H "Content-Type: application/json" -d "{\"address\": \"0xA36fBf59FD12024478A3999A1c6C2049cc8aE1d0\"}" http://localhost:3003/api/v1/asset/import
+curl  -H "Content-Type: application/json" -d "{\"address\": \"0x8674AA546e121Ae2F80bd983f0F151afcba46908\"}" http://localhost:3003/api/v1/asset/import
 
 
 curl  -H "Content-Type: application/json" -d '{"address": "0x27fbB1f84c3D5fbd0673aE277D8DB44d3E8409F3", "username": "as", "proxy": "0x0"}' http://localhost:3003/api/v1/account

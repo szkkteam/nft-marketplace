@@ -12,6 +12,7 @@ export interface TokenPriceProps {
 
 const TokenPrice = ({rawPrice, ...props}: TokenPriceProps) => {
     const { toFixed } = useConvertPrice();
+    /*
     const [priceValue, setPriceValue] = useState<string | null>(null);
 
     useEffect(() => {
@@ -19,9 +20,9 @@ const TokenPrice = ({rawPrice, ...props}: TokenPriceProps) => {
             setPriceValue(await toFixed(rawPrice));
         })()
     }, [rawPrice])
-
+    */
     return (
-        <Typography variant="body2" component="p" sx={{fontWeight: 'bold'}} {...props}>{priceValue}</Typography>
+        <Typography variant="body2" component="p" sx={{fontWeight: 'bold'}} {...props}>{toFixed(rawPrice)}</Typography>
     )
 }
 

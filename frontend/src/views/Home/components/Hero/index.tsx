@@ -23,7 +23,7 @@ const Hero = () => {
                     <LinkButton href='/asset' variant='contained' sx={{width: 120}}>
                         Explore
                     </LinkButton>
-                    <LinkButton href='/' variant='contained' sx={{marginLeft: '2rem', width: 120}}>
+                    <LinkButton href='/mint' variant='contained' sx={{marginLeft: '2rem', width: 120}}>
                         Mint
                     </LinkButton>
                 </Box>

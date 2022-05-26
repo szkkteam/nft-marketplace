@@ -48,6 +48,10 @@ export class AssetService {
     return this.assetModel.find();
   }
 
+  async getByAddress(address: string) : Promise<AssetDocument> {
+    return this.assetModel.findOne({ address });
+  }
+
   async getBySlug(slug: string) {
     const asset = await this.assetModel.findOne({ slug });
     const tokens = await this.nftService.getAllToken(asset.address);

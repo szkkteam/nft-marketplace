@@ -16,6 +16,6 @@ import { TokenModule } from '../token/token.module'
   ],
   controllers: [AssetController],
   providers: [AssetService],
-  exports: [MongooseModule]
+  exports: [MongooseModule, AssetService]
 })
 export class AssetModule {}

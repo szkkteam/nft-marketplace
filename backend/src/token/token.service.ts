@@ -3,11 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Token, TokenDocument } from './token.schema';
 import { NftService } from 'src/nft/nft.service';
-import { OrderService } from 'src/order/order.service';
+import { AssetService } from '../asset/asset.service';
 
 @Injectable()
 export class TokenService {
-    constructor(@InjectModel(Token.name) private readonly tokenModel: Model<TokenDocument>,
+    constructor(
+        @InjectModel(Token.name) private readonly tokenModel: Model<TokenDocument>,
+        @Inject(forwardRef(() => AssetService)) private assetService: AssetService,
         private readonly nftService: NftService,
         //@Inject(forwardRef(() => OrderService))
         /*private orderService: OrderService */) {}
@@ -22,8 +24,12 @@ export class TokenService {
     }
 
     async getTokenWithLatestActiveOrder(address: string, id: string): Promise<any> {
+        const asset = await this.assetService.getByAddress(address);
         const token = await this.tokenModel
-            .findOne({ address, id })
+            // TODO: query the asset based on address
+            // @ts-ignore
+            .findOne({ id, asset: asset._id })
+            //.findOne({ id, asset: {address} })
             .populate({
                 path: 'orders',
                 match: { cancelled: false, finalized: false },
@@ -36,10 +42,12 @@ export class TokenService {
                     path: 'maker'
                 }
             })
-            .populate('asset')
+            .populate({
+                path: 'asset',
+                match: { address },
+            })
             //.populate('maker')
             .exec();
-
             return token.toJSON();
     }
 
@@ -60,8 +68,10 @@ export class TokenService {
 
     async lastValidOrder(address: string, id: string): Promise<any> {
         try {
+            const asset = await this.assetService.getByAddress(address);
             const token = await this.tokenModel
-            .findOne({ address, id })
+            // @ts-ignore
+            .findOne({ id, asset: asset._id })
             .populate({
                 path: 'orders',
                 match: { cancelled: false, finalized: false },
@@ -74,7 +84,10 @@ export class TokenService {
                     path: 'maker'
                 }
             })
-            .populate('asset')
+            .populate({
+                path: 'asset',
+                match: { address },
+            })
             //.populate('maker')
             .exec();
 

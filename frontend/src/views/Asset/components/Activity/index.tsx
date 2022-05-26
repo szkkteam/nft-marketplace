@@ -30,7 +30,7 @@ const Activity = ({address}: ActivityProps) => {
   return (
     <>
         <Grid container item xs={12}>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <List
                 subheader={
                   <Typography variant="h6">{`Recently listed items (${notFinalized.length})`}</Typography>
@@ -38,24 +38,46 @@ const Activity = ({address}: ActivityProps) => {
               >
                 {!isLoading? (
                   notFinalized && notFinalized.map(({token: {asset: {name, address}, id}, currentPrice}, key) => (
-                    <>
+                    <span key={key}>
                         <TokenListItem 
                             href={`/assets/${address}/${id}`}
                             price={currentPrice}
-                            key={key}
                             name={name}
                             tokenId={id}
                         />
                         <Divider />
-                    </>
+                    </span>
                   ))
                 ) : (
                   <div>Loading ...</div>
                 )}
               </List>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={2}>
               
+              </Grid>
+            <Grid item xs={4}>
+            <List
+                subheader={
+                  <Typography variant="h6">{`Recently sold items (${finalized.length})`}</Typography>
+                }
+              >
+                {!isLoading? (
+                  finalized && finalized.map(({token: {asset: {name, address}, id}, currentPrice}, key) => (
+                    <span key={key}>
+                        <TokenListItem 
+                            href={`/assets/${address}/${id}`}
+                            price={currentPrice}
+                            name={name}
+                            tokenId={id}
+                        />
+                        <Divider />
+                    </span>
+                  ))
+                ) : (
+                  <div>Loading ...</div>
+                )}
+              </List>
             </Grid>
         </Grid>          
     </>

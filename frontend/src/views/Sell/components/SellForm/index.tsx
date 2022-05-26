@@ -29,6 +29,10 @@ const SellForm = ({address, token, proxy}: SellFormProps) => {
     const {isApprovedForAll, setApprovalForAll} = useIERC721(address);
     const { makeOrder } = useMakeOrder(address);
 
+    console.log(`
+        useMakeOrder address: ${address}
+    `)
+
     const [sellAmount, setSellAmount] = useState('');
     const [isApproved, setIsApproved] = useState(false);
     const [validPrice, setValidPrice] = useState(false);
@@ -61,7 +65,7 @@ const SellForm = ({address, token, proxy}: SellFormProps) => {
     const handleConfirm = async () => {
         const expirationTime = new Date('2023-06-01T00:00:00Z').getTime() / 1000;
         try {
-            const convertedPrice = await toRaw(sellAmount.toString());
+            const convertedPrice = toRaw(sellAmount.toString());
             console.log("convertedPrice: ", convertedPrice)
             await makeOrder(account, token, convertedPrice, "10000000000");
             console.log('order made')

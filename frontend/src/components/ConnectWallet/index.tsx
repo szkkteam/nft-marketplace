@@ -3,6 +3,7 @@ import { Chip } from '@mui/material'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import WarningIcon from '@mui/icons-material/Warning';
+import { red, green, orange } from '@mui/material/colors';
 
 import {
     Web3ReactProvider,
@@ -120,7 +121,7 @@ export default function ConnectWallet() {
           size="medium"
           label={getLabel()}
           onDelete={() => null}
-          deleteIcon={connected? account? <CheckCircleIcon /> : <WarningIcon /> : <CancelIcon />}
+          deleteIcon={connected? account? <CheckCircleIcon color="success"  /> : <WarningIcon sx={{color: orange[500]}}/> : <CancelIcon sx={{color: red[500]}}/>}
           />           
     )
 }
