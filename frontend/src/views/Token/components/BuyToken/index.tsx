@@ -46,6 +46,7 @@ const BuyToken = ({address, token, order}: BuyTokenProp) => {
 
         try {
             await takeOrder(proxyAccount.address, makerAddress, currentPrice, listingTime, expirationTime, salt, signature);
+            Router.push(`/assets/${address}/${token}`);
         } catch(e) {
             console.log(e)
         }

@@ -18,7 +18,7 @@ export const getWyvernRegistryContract = (signer: ethers.Signer) => {
   return getContract(
     // @ts-ignore
     wyvernRegistryAbi,
-    '0x875Cf821d2a794a3D8f977eA38F9e1030f4C41D5',
+    '0x7DeFE8E31dd520864C3b19aa664d05e81dD59D1b',
     signer,
   );
 };
@@ -26,7 +26,7 @@ export const getWyvernRegistryContract = (signer: ethers.Signer) => {
 export const getWyvernStaticMarketContract = (signer: ethers.Signer) => {
   return getContract(
     StaticMarketABI,
-    '0x696b956aa5A2707Fe7dea1D2840a3fD677257323',
+    '0xE4921a0c1d705601DB602dE3f1B728002Fa660B8',
     // @ts-ignore
     signer,
   );
@@ -35,7 +35,7 @@ export const getWyvernStaticMarketContract = (signer: ethers.Signer) => {
 export const getWyvernExchangeContract = (signer: ethers.Signer) => {
   return getContract(
     ExchangeABI,
-    '0x0276D043888549C4D2b6De960666E0736760466c',
+    '0xc2Bb92dfB1dbA4AE7E8e3413c10F8A6f5Ec120AF',
     // @ts-ignore
     signer,
   );
@@ -54,7 +54,7 @@ export const getIERC721Contract = (address: string, signer: ethers.Signer) => {
 export const getERC20TokenContract = (signer: ethers.Signer) => {
   return getContract(
     ERC20TokenABI,
-    "0x8aC34ed4fd05A6a1210C3D33f75aFb95Ef4993Fb",
+    "0x6d11f8b6D06de3e5D089d200a284aDB7cfb8D2b4",
     // @ts-ignore
     signer,
   );
@@ -63,7 +63,7 @@ export const getERC20TokenContract = (signer: ethers.Signer) => {
 export const getTestContract = (signer: ethers.Signer) => {
   return getContract(
     TestABI,
-    "0xB6Fb242636173dc882c859E44A08Be48cF317371",
+    "0x9ce1faDD9f7d3cE11Bb8881251e1b22200133269",
     // @ts-ignore
     signer,
   )

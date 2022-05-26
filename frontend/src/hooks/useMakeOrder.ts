@@ -14,11 +14,11 @@ const useMakeOrder = (nftAddress: string) => {
   const test = useTestContract();
  
   const handleMakeOrder = useCallback(
-    async (maker: string, tokenId: string, sellingPrice: string, expirationTime: string) => {
+    async (maker: string, tokenId: string, currentPrice: string, expirationTime: string) => {
       // Listing time
-      //const listingTime = (Math.floor(Date.now() / 1000)).toString();
-      const listingTime = "0";
-      const one = makeOrder(maker, tokenId, sellingPrice, listingTime, expirationTime);
+      const listingTime = (Math.floor(Date.now() / 1000)).toString();
+      //const listingTime = "0";
+      const one = makeOrder(maker, tokenId, currentPrice, listingTime, expirationTime);
       //const sigOne = await sign(exchange, one, maker);
       const {v, r, s} = await sign(one, maker);
 
@@ -47,7 +47,7 @@ const useMakeOrder = (nftAddress: string) => {
       const orderPayload: OrderCreate = {
         listingTime,
         expirationTime,
-        currentPrice: sellingPrice,
+        currentPrice,
         // TODO: What to include here?
         calldata: "0x0",
         v,

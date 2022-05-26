@@ -20,10 +20,26 @@ const useTakeOrder = (nftAddress: string, tokenId: string, orderId: string) => {
     async (taker: string, maker: string, sellingPrice: string, listingTime: string, expirationTime: string, salt: string, sig: Signature) => {
       // Listing time
       
-      const one = makeOrder(maker, tokenId, sellingPrice, listingTime, expirationTime, salt);
-      const { two, firstCall, secondCall } = takeOrder(maker, taker, tokenId, sellingPrice, listingTime, expirationTime, salt);
-      const counterSig: Signature = await sign(two, taker);
+      console.log(`
+        taker: ${taker}
+        maker: ${maker}
+        sellingPrice: ${sellingPrice}
+        listingTime: ${listingTime}
+        expirationTime: ${expirationTime}
+        salt: ${salt}
       
+      `)
+
+      //const one = makeOrder(maker, tokenId, sellingPrice, listingTime, expirationTime, salt);
+      const { one, two, firstCall, secondCall } = takeOrder(maker, taker, tokenId, sellingPrice, listingTime, expirationTime, salt);
+      //const counterSig: Signature = await sign(two, taker);
+      
+      const counterSig: Signature = {
+        v: "27",
+        r: "0xfdb3a09b16066fe8324d0998030cf88294c27b436a54eef45a9e57d81f230085",
+        s: "0x3e270fcd15a186d37f318eb08a26039ced7d086e676bfd02c9ed773ee9e984ae"
+      }
+
       const hash = await hashOrder_(exchange, one);
       const encodedSig = encodeSignatureSingle(sig);
 
@@ -49,9 +65,9 @@ const useTakeOrder = (nftAddress: string, tokenId: string, orderId: string) => {
     `)
       
       await atomicMatch_(exchange, one, firstCall, two, secondCall, encodedSignature, ZERO_BYTES32, {from: taker});
-      /*
+      
       await finalizeOrder(orderId, taker);
-      */
+      
     },
     [exchange, token],
   );

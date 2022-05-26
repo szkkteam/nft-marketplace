@@ -28,7 +28,7 @@ contract MintableNft is Mintable, ERC721A, Ownable, ReentrancyGuard {
     uint256 public WHITELIST_MINT_PRICE = 0.08 ether;
     uint256 public WHITELIST_MAX_MINT = 2;
 
-    uint256 public PUBLIC_MINT_PRICE = 0.08 ether;
+    uint256 public PUBLIC_MINT_PRICE = 0.00 ether;
     uint256 public PUBLIC_MAX_MINT = 8;
 
     // Token variables

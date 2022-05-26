@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Router from 'next/router'
 
 import { 
     Button,
@@ -39,13 +40,7 @@ const SellForm = ({address, token, proxy}: SellFormProps) => {
 
     useEffect(() => {
         (async () => {
-            const isApproved = await isApprovedForAll(address, proxy);
-
-            console.log(`
-                account: ${account}
-                proxy: ${proxy}
-                isApproved: ${isApproved}
-            `)
+            const isApproved = await isApprovedForAll(account, proxy);
             if (isApproved) {
                 setIsApproved(true);
             }
@@ -69,6 +64,8 @@ const SellForm = ({address, token, proxy}: SellFormProps) => {
             console.log("convertedPrice: ", convertedPrice)
             await makeOrder(account, token, convertedPrice, "10000000000");
             console.log('order made')
+
+            Router.push(`/assets/${address}/${token}`);
             // TODO: Redirect to success page
         } catch(e) {
             console.error(e)

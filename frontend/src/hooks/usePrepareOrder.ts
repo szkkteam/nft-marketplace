@@ -8,6 +8,8 @@ import {
   useWeb3React,
 } from '@web3-react/core';
 
+import IERC721AABI from '@/config/abi/IERC721A.json';
+import ERC20TokenABI from '@/config/abi/Token.json';
 
 
 const eip712Domain = {
@@ -109,18 +111,41 @@ const usePrepareOrder = (nftAddress: string) => {
     })
   }
 
-  const handleCreateParamsOne = (tokenId: string, sellingPrice: string) => web3.eth.abi.encodeParameters(
+  const handleCreateParamsOne = (tokenId: string, sellingPrice: string) => {
+    console.log("handleCreateParamsOne-sellingPrice", sellingPrice)
+    console.log("handleCreateParamsOne-tokenId", tokenId)
+    const v = web3.eth.abi.encodeParameters(
     ['address[2]', 'uint256[2]'],
     [[nft.address, token.address], [tokenId, sellingPrice]]
   )
+  console.log("handleCreateParamsOne-result", v)
+  return v;
+}
 
-  const handleCreateParamsTwo = (buyTokenId: string, buyingPrice: string) => web3.eth.abi.encodeParameters(
+  const handleCreateParamsTwo = (buyTokenId: string, buyingPrice: string) => {
+    console.log("handleCreateParamsTwo-buyingPrice", buyingPrice)
+    console.log("handleCreateParamsTwo-buyTokenId", buyTokenId)
+
+    const v = web3.eth.abi.encodeParameters(
     ['address[2]', 'uint256[2]'],
     [[token.address, nft.address], [buyTokenId, buyingPrice]]
-  )
+    )
+    console.log("handleCreateParamsTwo-result", v)
+    return v;
+  }
 
   const handleCreateOne = (maker: string, tokenId: string, sellingPrice: string, listingTime: string, expirationTime: string, salt: string) => {
-    return {registry: registry.address, maker, staticTarget: statici.address, staticSelector: handleCreateSelectorOne(), staticExtradata: handleCreateParamsOne(tokenId, sellingPrice), maximumFill: 1, listingTime, expirationTime, salt}      
+    return {
+      registry: registry.address,
+      maker,
+      staticTarget: statici.address,
+      staticSelector: handleCreateSelectorOne(),
+      staticExtradata: handleCreateParamsOne(tokenId, sellingPrice),
+      maximumFill: 1,
+      listingTime,
+      expirationTime,
+      salt
+    }      
   }
 
   const handleMakeOrder = (maker: string, tokenId: string, sellingPrice: string, listingTime: string, expirationTime: string, salt: string = new Date().getTime().toString()) => {
@@ -129,7 +154,17 @@ const usePrepareOrder = (nftAddress: string) => {
 
   const handleCreateTwo = (maker: string, tokenId: string, sellingPrice: string, listingTime: string, expirationTime: string) => {
     const salt = new Date().getTime().toString();
-    return {registry: registry.address, maker, staticTarget: statici.address, staticSelector: handleCreateSelectorTwo(), staticExtradata: handleCreateParamsTwo(tokenId, sellingPrice), maximumFill: 1, listingTime, expirationTime, salt}      
+    return {
+      registry: registry.address,
+      maker,
+      staticTarget: statici.address,
+      staticSelector: handleCreateSelectorTwo(),
+      staticExtradata: handleCreateParamsTwo(tokenId, sellingPrice),
+      maximumFill: 1,
+      listingTime,
+      expirationTime,
+      salt
+    }      
   }
 
   const handleEncodeSignatureParams = (sig: Signature, countersig: Signature) => web3.eth.abi.encodeParameters(['bytes', 'bytes'], [
@@ -145,6 +180,12 @@ const usePrepareOrder = (nftAddress: string) => {
 
     const firstData = nft?.interface.encodeFunctionData('transferFrom(address,address,uint256)', [maker, taker, tokenId]);
     const secondData = token?.interface.encodeFunctionData('transferFrom(address,address,uint256)', [taker, maker, sellingPrice]);
+    
+    const nftContract = new web3.eth.Contract(IERC721AABI, nft.address);
+    const tokenContract = new web3.eth.Contract(ERC20TokenABI, token.address);
+
+    //const firstData = nftContract.methods.transferFrom(maker, taker, tokenId).encodeABI()
+		//const secondData = tokenContract.methods.transferFrom(taker, maker, sellingPrice).encodeABI()
     /*
     let firstData;
     let secondData;

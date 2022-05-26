@@ -28,6 +28,8 @@
 
  const MAINNET_DEPLOYER_MNEMONIC = process.env.MAINNET_DEPLOYER_MNEMONIC;
  const TESTNET_DEPLOYER_MNEMONIC = process.env.TESTNET_DEPLOYER_MNEMONIC;
+
+ var INFURA_KEY = process.env.INFURA_KEY || '';
  
  module.exports = {
    networks: {
@@ -61,6 +63,18 @@
       },
       network_id: '42',
       skipDryRun: true
+    },
+    rinkeby: {
+      provider: function () {
+        return new HDWalletProvider(TESTNET_DEPLOYER_KEY, 'https://rinkeby.infura.io/v3/'+INFURA_KEY)
+      },
+      from: '',
+      port: 8545,
+      network_id: '4',
+      gas: 16700000,
+      networkCheckTimeout: 100000,
+      gasPrice: 21110000000,
+      confirmations: 2,
     },
    },
    plugins: [
