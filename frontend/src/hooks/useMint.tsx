@@ -9,10 +9,10 @@ const useMint = (address: string) => {
 
   const handleMint = useCallback(
     async (amount: string) => {
-      const price = 0.08;
-      const value = web3.utils.toWei((parseInt(amount) * price).toString(), 'ether');
-
-      return await mint(contract, amount, { value });
+      //const price = 0.08;
+      //const value = web3.utils.toWei((parseInt(amount) * price).toString(), 'ether');
+      //return await mint(contract, amount, { value });
+      return await mint(contract, amount, {});
     },
     [contract],
   );
