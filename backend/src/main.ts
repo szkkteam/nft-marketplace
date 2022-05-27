@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import * as expressListRoutes from 'express-list-routes';
+//import * as expressListRoutes from 'express-list-routes';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -9,8 +9,8 @@ async function bootstrap() {
   app.enableCors();
   //app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
-  await app.listen(3003);
+  await app.listen(process.env.PORT || 3003);
 
-  expressListRoutes(app.getHttpServer()._events.request._router);
+  //expressListRoutes(app.getHttpServer()._events.request._router);
 }
 bootstrap();

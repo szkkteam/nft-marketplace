@@ -18,7 +18,7 @@ import { OrderModule } from './order/order.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
-        uri: config.get<string>('MONGO_DB'),
+        uri: config.get<string>('MONGODB_URI'),
       }),
     }),
     NftModule,

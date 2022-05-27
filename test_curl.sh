@@ -17,3 +17,6 @@ curl  -H "Content-Type: application/json" -d '{"listingTime": 2, "expirationTime
 
 
 curl  -H "Content-Type: application/json" -d '{"address": "0x8674AA546e121Ae2F80bd983f0F151afcba46908"}' http://localhost:3003/api/v1/asset/import
+
+
+curl  -H "Content-Type: application/json" -d '{"address": "0x5c38c47a401bD3c6C51B366241582a6a087c5a22"}' https://ox-marketplace-api.herokuapp.com/api/v1/asset/import
