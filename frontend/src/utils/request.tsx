@@ -1,4 +1,5 @@
-import { SERVER_URL, CLIENT_URL } from '@/config/constants';
+// @ts-nocheck
+import { CLIENT_URL, SERVER_URL } from '@/config/constants';
 
 /*
 interface Options extends Object {
@@ -6,69 +7,64 @@ interface Options extends Object {
 }
 */
 
-
 export function serverUrl(uri: string, queryParams: object | null = null) {
   const baseUrl = `${SERVER_URL}${uri}`;
-  console.log("Base url: ", baseUrl)
-    return queryParams
-    ? `${baseUrl}?${JSON.stringify(queryParams)}`
-    : baseUrl
+  console.log('Base url: ', baseUrl);
+  return queryParams ? `${baseUrl}?${JSON.stringify(queryParams)}` : baseUrl;
 }
 
 export function clientUrl(uri: string, queryParams: object | null = null) {
   const baseUrl = `${CLIENT_URL}${uri}`;
-  console.log("Base url: ", baseUrl)
-    return queryParams
-    ? `${baseUrl}?${JSON.stringify(queryParams)}`
-    : baseUrl
+  console.log('Base url: ', baseUrl);
+  return queryParams ? `${baseUrl}?${JSON.stringify(queryParams)}` : baseUrl;
 }
 
 export async function get(url: string, options: object = {}) {
-    const defaults = {
-      credentials: 'include',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-        'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT'
-      },
-      method: 'GET',
-    };
-    return await request(url, _mergeOptions(defaults, options))
-  }
-
+  const defaults = {
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers':
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+      'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+    },
+    method: 'GET',
+  };
+  return request(url, _mergeOptions(defaults, options));
+}
 
 export async function post(url: string, data: Object, options = {}) {
-    const defaults = {
-      credentials: 'include',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-        'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT'
-      },
-      method: 'POST',
-      body: JSON.stringify(data),
-    }
-    return await request(url, _mergeOptions(defaults, options))
-  }
+  const defaults = {
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers':
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+      'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+    },
+    method: 'POST',
+    body: JSON.stringify(data),
+  };
+  return request(url, _mergeOptions(defaults, options));
+}
 
+export async function put(url: string, data: Object, options = {}) {
+  return post(url, data, _setMethod(options, 'PUT'));
+}
 
-  export async function put(url: string, data: Object, options = {}) {
-    return await post(url, data, _setMethod(options, 'PUT'))
-  }
-  
-  export async function patch(url: string, data: Object, options = {}) {
-    return await post(url, data, _setMethod(options, 'PATCH'))
-  }
-  
-  export async function delete_(url: string, options = {}) {
-    return await get(url, _setMethod(options, 'DELETE'))
-  }
+export async function patch(url: string, data: Object, options = {}) {
+  return post(url, data, _setMethod(options, 'PATCH'));
+}
+
+export async function delete_(url: string, options = {}) {
+  return get(url, _setMethod(options, 'DELETE'));
+}
 /*
 export async function request(url: string, options: object) {
     return await fetch(url, options);
@@ -76,81 +72,83 @@ export async function request(url: string, options: object) {
 */
 
 export function request(url: string, options: object) {
-  console.log(url)
+  console.log(url);
   return fetch(url, options)
     .then(_checkStatusAndParseJSON)
     .catch((e) => {
       return new Promise((_, reject) => {
         if (e.response) {
-          reject(e)
+          reject(e);
         } else {
           // should only end up here if the backend has gone away
           e.response = {
             status: -1,
             statusText: e.message,
             error: e.message,
-          }
-          reject(e)
+          };
+          reject(e);
         }
-      })
-    })
+      });
+    });
 }
 
 function _setMethod(options: Object, method: Object) {
-  return Object.assign({}, options, { method })
+  return { ...options, method };
 }
 
 function _checkStatusAndParseJSON(response: any) {
   return new Promise((resolve, reject) => {
-    response.json()
+    response
+      .json()
       // response with json body
       // @ts-ignore
       .then((json) => {
         if (_checkStatus(response)) {
           // success response with json body
-          resolve(json)
+          resolve(json);
         } else {
           // error response with json error message
-          reject(_responseError(response, json))
+          reject(_responseError(response, json));
         }
       })
       // response with no body (response.json() raises SyntaxError)
       .catch(() => {
         if (_checkStatus(response)) {
           // success response with no body (most likely HTTP 204: No Content)
-          resolve(null)
+          resolve(null);
         } else {
           // error response, create generic error message from HTTP status
-          reject(_responseError(response, { error: response.statusText }))
+          reject(_responseError(response, { error: response.statusText }));
         }
-      })
-  })
+      });
+  });
 }
 
-
 function _checkStatus(response: any) {
-  return response.status >= 200 && response.status < 300
+  return response.status >= 200 && response.status < 300;
 }
 
 function _responseError(response: any, json: any) {
-  //const error = new Error(response.statusText)
-  const error = new Error("Error")
+  // const error = new Error(response.statusText)
+  const error = new Error('Error');
   // @ts-ignore
-  const responseIt = Object.assign({
+  const responseIt = {
     status: response.status,
     statusText: response.statusText,
-  }, json)
-  return {response: responseIt}
+    ...json,
+  };
+  return { response: responseIt };
 }
 
 function _mergeOptions(defaults: Object, options: Object) {
-    return Object.assign({}, defaults, {
-      ...options,
-      headers: {
-        // @ts-ignore
-        ...defaults.headers,
-        // @ts-ignore
-        ...options.headers,
-      }
-    })
-  }
+  return {
+    ...defaults,
+    ...options,
+    headers: {
+      // @ts-ignore
+      ...defaults.headers,
+      // @ts-ignore
+      ...options.headers,
+    },
+  };
+}

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
+import { useEffect } from 'react';
 
 import { injected } from '@/config/connectors';
 

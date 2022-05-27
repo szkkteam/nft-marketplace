@@ -6,11 +6,7 @@ import React from 'react';
 import Logo from './Logo';
 import Nav from './Nav';
 
-export interface Props {
-  props?: object;
-}
-
-export default function Header({ ...props }: Props) {
+export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">

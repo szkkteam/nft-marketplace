@@ -1,15 +1,17 @@
 import { useCallback } from 'react';
-import { proxies } from '@/utils/calls';
+
 import { useWyvernRegistry } from '@/hooks/useContract';
+import { proxies } from '@/utils/calls';
 
 const useProxies = () => {
   const registry = useWyvernRegistry();
 
   const handleProxies = useCallback(
     async (address: string | null | undefined) => {
-      return await proxies(registry, address);
+      // @ts-ignore
+      return proxies(registry, address);
     },
-    [registry],
+    [registry]
   );
 
   return { proxies: handleProxies };

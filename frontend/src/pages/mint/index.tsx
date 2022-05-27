@@ -1,30 +1,27 @@
-
-import MintList from '@/views/MintList';
+// @ts-nocheck
 import { GetServerSideProps } from 'next';
 
-import { getAllMint } from '@/utils/api';
-
 import { MintEntity } from '@/interfaces';
+import { getAllMint } from '@/utils/api';
+import MintList from '@/views/MintList';
 
 interface MintProps {
-    mints: Array<MintEntity>;
+  mints: Array<MintEntity>;
 }
 
-function Mint({mints}: MintProps) {
-
-    return (<MintList mints={mints}/>)
+function Mint({ mints }: MintProps) {
+  return <MintList mints={mints} />;
 }
 
 // @ts-ignore
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const mints = await getAllMint().catch(e => null);
+  const mints = await getAllMint().catch((e) => null);
 
-    return {
-        props: {
-            mints
-        }
-    }
-}
-
+  return {
+    props: {
+      mints,
+    },
+  };
+};
 
 export default Mint;

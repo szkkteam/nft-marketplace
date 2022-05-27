@@ -1,4 +1,4 @@
-import { Box, Toolbar } from '@mui/material';
+import { Box } from '@mui/material';
 import React from 'react';
 
 import Nav from '@/components/Nav';
@@ -14,11 +14,13 @@ export default function PageLayout({ marginTop, children }: Props) {
   // const router = useRouter();
 
   return (
-    <Box sx={{ }}>
-      <Nav />      
-      
-      <Box sx={{ flexGrow: 1, marginTop}} component="main">{children}</Box>
-      <div style={{marginBottom: 100}} />
+    <Box sx={{}}>
+      <Nav />
+
+      <Box sx={{ flexGrow: 1, marginTop }} component="main">
+        {children}
+      </Box>
+      <div style={{ marginBottom: 100 }} />
     </Box>
   );
 }

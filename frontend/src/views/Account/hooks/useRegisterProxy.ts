@@ -1,17 +1,16 @@
 import { useCallback } from 'react';
-import { registerProxy } from '@/utils/calls';
+
 import { useWyvernRegistry } from '@/hooks/useContract';
+import { registerProxy } from '@/utils/calls';
 
 const useRegisterProxy = () => {
   const registry = useWyvernRegistry();
 
-  const handleRegister = useCallback(
-    async () => {
-      const txHash = await registerProxy(registry);
-      console.info(txHash);
-    },
-    [registry],
-  );
+  const handleRegister = useCallback(async () => {
+    // @ts-ignore
+    const txHash = await registerProxy(registry);
+    console.info(txHash);
+  }, [registry]);
 
   return { registerProxy: handleRegister };
 };

@@ -1,7 +1,6 @@
-
 export interface Signature {
-    r: string;
-    s: string;
-    v: string;
-    suffix?: string;
+  r: string;
+  s: string;
+  v: string;
+  suffix?: string;
 }

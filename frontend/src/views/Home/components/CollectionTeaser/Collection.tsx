@@ -1,29 +1,23 @@
+import { CardMedia, ImageListItemBar } from '@mui/material';
 import React from 'react';
 
 import CardLink from '@/components/CardLink';
 import NftImage from '@/components/NftImage';
 
-import { Skeleton, Card, CardMedia, ImageListItemBar, CardActionArea   } from '@mui/material';
-
 export interface CollectionProps {
-    address: string;
-    name: string;
-    slug: string;
-
+  name: string;
+  slug: string;
 }
 
-const Collection = ({address, name, slug}: CollectionProps) => {
-    return (
-        <CardLink href={`/asset/${slug}`}>
-            <CardMedia sx={{position: 'relative'}}>
-                <NftImage height={280} />
-                <ImageListItemBar
-                    title={name}
-                    subtitle="Lorem ipsum dorem sit amet"
-                />
-            </CardMedia>
-        </CardLink>
-    )
-}
+const Collection = ({ name, slug }: CollectionProps) => {
+  return (
+    <CardLink href={`/asset/${slug}`}>
+      <CardMedia sx={{ position: 'relative' }}>
+        <NftImage height={280} />
+        <ImageListItemBar title={name} subtitle="Lorem ipsum dorem sit amet" />
+      </CardMedia>
+    </CardLink>
+  );
+};
 
 export default Collection;

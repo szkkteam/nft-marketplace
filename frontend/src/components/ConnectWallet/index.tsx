@@ -1,34 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Chip } from '@mui/material'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Web3Provider } from '@ethersproject/providers';
 import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
-import { red, green, orange } from '@mui/material/colors';
-
-import {
-    Web3ReactProvider,
-    useWeb3React,
-    UnsupportedChainIdError,
-  } from '@web3-react/core';
-  import { Web3Provider } from '@ethersproject/providers';
-
-  import useEagerConnect from '@/hooks/useEagerConnect';
-import useInactiveListener from '@/hooks/useInactiveListener';
+import { Chip } from '@mui/material';
+import { orange, red } from '@mui/material/colors';
+import { useWeb3React } from '@web3-react/core';
+import React, { useState } from 'react';
 
 import { injected, walletconnect } from '@/config/connectors';
+import useEagerConnect from '@/hooks/useEagerConnect';
+import useInactiveListener from '@/hooks/useInactiveListener';
 
-//import { get } from '@/utils/request';
-//import useRegisterProxy from '@/hooks/wyvernRegistry/useRegisterProxy';
+// import { get } from '@/utils/request';
+// import useRegisterProxy from '@/hooks/wyvernRegistry/useRegisterProxy';
 
 enum ConnectorNames {
-    Injected = 'Injected',
-    WalletConnect = 'WalletConnect',
-  }
+  Injected = 'Injected',
+  WalletConnect = 'WalletConnect',
+}
 
 const connectorsByName: { [connectorName in ConnectorNames]: any } = {
-    [ConnectorNames.Injected]: injected,
-    [ConnectorNames.WalletConnect]: walletconnect,
-  };
+  [ConnectorNames.Injected]: injected,
+  [ConnectorNames.WalletConnect]: walletconnect,
+};
 
 /*
   async function hasAccount(account: string) {
@@ -37,91 +31,57 @@ const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   }
 */
 export default function ConnectWallet() {
- 
-    const {
-        connector,
-        library,
-        chainId,
-        account,
-        activate,
-        deactivate,
-        active,
-        error,
-      } = useWeb3React<Web3Provider>();
+  const { connector, account, activate } = useWeb3React<Web3Provider>();
 
-      const [activatingConnector, setActivatingConnector] = useState<any>();
+  const [activatingConnector, setActivatingConnector] = useState<any>();
 
-      React.useEffect(() => {
-        if (activatingConnector && activatingConnector === connector) {
-          setActivatingConnector(undefined);
-        }
-      }, [activatingConnector, connector]);
+  React.useEffect(() => {
+    if (activatingConnector && activatingConnector === connector) {
+      setActivatingConnector(undefined);
+    }
+  }, [activatingConnector, connector]);
 
-      // handle logic to eagerly connect to the injected ethereum provider, if it exists and has granted access already
+  // handle logic to eagerly connect to the injected ethereum provider, if it exists and has granted access already
   const triedEager = useEagerConnect();
 
   // handle logic to connect in reaction to certain events on the injected ethereum provider, if it exists
   useInactiveListener(!triedEager || !!activatingConnector);
 
   const currentConnector = connectorsByName[ConnectorNames.Injected];
-  //const activating = currentConnector === activatingConnector;
+  // const activating = currentConnector === activatingConnector;
   const connected = currentConnector === connector;
-  //const disabled = !triedEager || !!activatingConnector || connected || !!error;
-      /*
-  const { registerProxy } = useRegisterProxy();
-  useEffect(() => {
-    if (connected && account) {
-      
-      const register = async () => {
-        try {
-          await registerProxy();
-        } catch (e) {
-          console.log(`Error during reigster: ${e}`);
-        }
-      };
 
-      const apiAcc = hasAccount(account).catch(err => {
-            console.log(err);
-            console.log("Registering proxy ...");
-            // TODO: Create account 
-            //register();
+  const getLabel = () => {
+    return connected
+      ? account
+        ? `${account.substring(0, 6)}...${account.substring(
+            account.length - 4
+          )}`
+        : 'Invalid Network'
+      : 'Connect Wallet';
+  };
 
-      });
-      console.log(apiAcc);
-      // TODO: Asnyc call if we have account.
-      // if not, register through registry
-      // if yes, okay
-      
-
-
-    }
-  }, [connected, account])
-*/
-  
-
-    const getLabel = () => {
-      return connected ? (
-          account
-            ? `${account.substring(0, 6)}...${account.substring(
-                account.length - 4,
-              )}`
-            : 'Invalid Network'
-      ) : (
-        'Connect Wallet'
-      )
-    }
-
-    return (
-        <Chip 
-          onClick={() => {
-            setActivatingConnector(currentConnector);
-            activate(injected);
-          }}
-          color="primary"
-          size="medium"
-          label={getLabel()}
-          onDelete={() => null}
-          deleteIcon={connected? account? <CheckCircleIcon color="success"  /> : <WarningIcon sx={{color: orange[500]}}/> : <CancelIcon sx={{color: red[500]}}/>}
-          />           
-    )
+  return (
+    <Chip
+      onClick={() => {
+        setActivatingConnector(currentConnector);
+        activate(injected);
+      }}
+      color="primary"
+      size="medium"
+      label={getLabel()}
+      onDelete={() => null}
+      deleteIcon={
+        connected ? (
+          account ? (
+            <CheckCircleIcon color="success" />
+          ) : (
+            <WarningIcon sx={{ color: orange[500] }} />
+          )
+        ) : (
+          <CancelIcon sx={{ color: red[500] }} />
+        )
+      }
+    />
+  );
 }
