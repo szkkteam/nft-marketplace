@@ -18,7 +18,7 @@ module.exports = withBundleAnalyzer({
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:3003/api/:path*',
+        destination: 'https://ox-marketplace-api.herokuapp.com/api/:path*',
       },
     ]
   },
